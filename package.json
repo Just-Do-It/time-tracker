@@ -1,0 +1,34 @@
+{
+  "name": "time-tracker",
+  "version": "0.0.1",
+  "description": "Time tracker application based on Vue.js and Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Just-Do-It/time-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Just-Do-It/time-tracker/issues"
+  },
+  "homepage": "https://github.com/Just-Do-It/time-tracker#readme",
+  "dependencies": {
+    "vue": "^2.4.4",
+    "webpack": "^3.6.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "electron": "^1.7.8",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack-dev-server": "^2.9.1"
+  }
+}
