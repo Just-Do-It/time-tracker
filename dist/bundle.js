@@ -10839,7 +10839,7 @@ module.exports = function normalizeComponent (
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            test: 'Hello world!'
+            test: 'Hello world!!111'
         };
     }
 });
