@@ -1,17 +1,17 @@
 <template>
     <div class="app-container">
-        <div class="app-routes">
-            <router-link to="/" exact>Main</router-link>
-            <router-link to="/date">Choice date</router-link>
-            <router-link to="/time-tracker">Tab tracker</router-link>
-        </div>
+        <app-navigation></app-navigation>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    export default {
+    import Navigation from './components/Navigation.vue';
 
+    export default {
+        components: {
+            'app-navigation': Navigation
+        }
     }
 </script>
 

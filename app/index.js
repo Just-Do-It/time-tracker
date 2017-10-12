@@ -6,12 +6,14 @@ import App from './App.vue';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-    routes
+    routes,
+    linkActiveClass: 'active',
+    linkExactActiveClass: 'active'
 });
 
 new Vue({
     el: '#app',
     template: '<app></app>',
-    components: { App },
-    router
+    router,
+    components: { App }
 });
