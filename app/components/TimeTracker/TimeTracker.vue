@@ -25,6 +25,9 @@
 </template>
 
 <script>
+  import Task from './Task.vue';
+
+
     export default {
       data() {
         return {
