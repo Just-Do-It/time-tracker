@@ -1,15 +1,15 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
+import store from './store'
 import router from './router'
+import Vuetify from 'vuetify'
 import App from './App.vue'
 
 Vue.use(Vuetify)
-Vue.use(Vuex)
 
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   el: '#app',
   render: h => h(App)
 })
