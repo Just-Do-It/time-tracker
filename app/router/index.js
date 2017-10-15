@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import MainPage from '../components/MainPage.vue'
 import Auth from '../components/Auth.vue'
 import DataSelection from '../components/DataSelection.vue'
-import TimeTracker from '../components/TimeTracker.vue'
+import TimeTracker from '../components/TimeTracker/TimeTracker.vue'
 
 Vue.use(Router)
 
