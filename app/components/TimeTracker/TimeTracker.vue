@@ -1,33 +1,28 @@
 <template>
 
   <v-app>
-
+    <date-picker :date="date"></date-picker>
     <div class="task-list">
       <ul>
         <task v-for="task in taskList" :key="task.id" :taskData="task"></task>
       </ul>
     </div>
-    <div>
-        <h1>Time Tracker</h1>
-    </div>
-    <v-flex class="hidden-xs-only">
-      <v-date-picker v-model="picker2"></v-date-picker>
-    </v-flex>
-    {{picker2}}
   </v-app>
 
 </template>
 
 <script>
   import Task from './Task.vue';
+  import DatePicker from './DatePicker.vue';
 
   export default {
     components: {
-      'task': Task
+      'task': Task,
+      'date-picker': DatePicker
     },
     data() {
       return {
-        picker2: null,
+        date: null, //2017-10-03
         taskList: [
           {
             id: 1,
