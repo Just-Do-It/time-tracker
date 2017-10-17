@@ -3,20 +3,34 @@
     <div class="modal-mask" v-if="showModal" @click="closeModal">
       <div class="modal-wrapper">
         <v-flex class="date">
-          <v-date-picker v-model="date"></v-date-picker>
+          <v-date-picker v-model="selectedDate"></v-date-picker>
         </v-flex>
         <button class="modal-default-button" @click="closeModal">Ok</button>
       </div>
     </div>
-    <button v-if="date" @click="openModal">{{date}}</button>
-    <button v-else @click="openModal">{{new Date() | formatDate}}</button>
+    <button v-if="selectedDate" @click="openModal">{{  selectedDate  }}</button>
+    <button v-else @click="openModal">{{ new Date() | formatDate }}</button>
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default{
-    props: {
-      date: Date
+    data() {
+      return {
+        showModal: false,
+      }
+    },
+    computed: {
+      selectedDate: {
+        get () {
+          return this.$store.state.selectedDate
+        },
+        set (date) {
+          this.$store.commit('updateSelectedDate', date)
+        }
+      }
     },
     filters: {
       formatDate(date) {
@@ -27,11 +41,6 @@
         let yy = date.getFullYear();
         if (yy < 10) yy = '0' + yy;
         return yy + '-' + mm + '-' + dd;
-      }
-    },
-    data() {
-      return {
-        showModal: false
       }
     },
     methods: {

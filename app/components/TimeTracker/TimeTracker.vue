@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <date-picker :date="date"></date-picker>
+    <date-picker></date-picker>
     <div class="task-list">
       <ul>
         <task
@@ -25,7 +25,7 @@
     },
     data() {
       return {
-        date: null, // 2017-10-03
+        // date: null, // 2017-10-03
         taskList: mockTaskList
       }
     }
