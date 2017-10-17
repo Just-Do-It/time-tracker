@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import TaskTimeInfo from './TaskTimeInfo.vue';
-  import Subtask from './Subtask.vue';
+  import TaskTimeInfo from './TaskTimeInfo.vue'
+  import Subtask from './Subtask.vue'
 
   export default{
     components: {
