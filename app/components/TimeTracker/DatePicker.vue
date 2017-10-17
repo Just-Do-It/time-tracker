@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <div class="modal-mask" v-if="showModal" @click="closeModal">
-      <div class="modal-wrapper">
-        <v-flex class="date">
+  <v-container>
+    <v-container fluid class="modal-mask" v-if="showModal">
+      <v-container class="modal-wrapper">
+        <v-layout column align-center>
           <v-date-picker v-model="selectedDate"></v-date-picker>
-        </v-flex>
-        <button class="modal-default-button" @click="closeModal">Ok</button>
-      </div>
-    </div>
-    <button v-if="selectedDate" @click="openModal">{{  selectedDate  }}</button>
-    <button v-else @click="openModal">{{ new Date() | formatDate }}</button>
-  </div>
+          <v-btn success @click="closeModal">OK</v-btn>
+        </v-layout>
+      </v-container>
+    </v-container>
+    <v-layout justify-center>
+      <v-btn v-if="selectedDate" @click="openModal"><v-icon>date_range</v-icon>{{  selectedDate  }}</v-btn>
+      <v-btn v-else @click="openModal"><v-icon>date_range</v-icon>{{ new Date() | formatDate }}</v-btn>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

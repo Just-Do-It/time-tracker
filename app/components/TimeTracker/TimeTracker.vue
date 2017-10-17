@@ -25,7 +25,6 @@
     },
     data() {
       return {
-        // date: null, // 2017-10-03
         taskList: mockTaskList
       }
     }
