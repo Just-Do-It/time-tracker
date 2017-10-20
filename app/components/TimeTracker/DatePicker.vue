@@ -1,16 +1,20 @@
 <template>
   <v-container>
-    <v-container fluid class="modal-mask" v-if="showModal">
-      <v-container class="modal-wrapper">
-        <v-layout column align-center>
-          <v-date-picker v-model="selectedDate"></v-date-picker>
-          <v-btn success @click="closeModal">OK</v-btn>
-        </v-layout>
-      </v-container>
-    </v-container>
+    <v-dialog v-model="showDialog">
+      <v-layout class="grey lighten-4" column align-center>
+        <v-date-picker v-model="selectedDate"></v-date-picker>
+        <v-btn success @click.native="showDialog = false">OK</v-btn>
+      </v-layout>
+    </v-dialog>
     <v-layout justify-center>
-      <v-btn v-if="selectedDate" @click="openModal"><v-icon>date_range</v-icon>{{  selectedDate  }}</v-btn>
-      <v-btn v-else @click="openModal"><v-icon>date_range</v-icon>{{ new Date() | formatDate }}</v-btn>
+      <v-btn v-if="selectedDate" @click.native.stop="showDialog = true">
+        <v-icon left>date_range</v-icon>
+        {{  selectedDate  }}
+      </v-btn>
+      <v-btn v-else @click.native.stop="showDialog = true">
+        <v-icon left>date_range</v-icon>
+        {{ new Date() | formatDate }}
+      </v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -19,7 +23,7 @@
   export default{
     data() {
       return {
-        showModal: false,
+        showDialog: false,
       }
     },
     computed: {
@@ -34,21 +38,13 @@
     },
     filters: {
       formatDate(date) {
-        let dd = date.getDate();
-        if (dd < 10) dd = '0' + dd;
-        let mm = date.getMonth() + 1;
-        if (mm < 10) mm = '0' + mm;
-        let yy = date.getFullYear();
-        if (yy < 10) yy = '0' + yy;
-        return yy + '-' + mm + '-' + dd;
-      }
-    },
-    methods: {
-      openModal: function () {
-        this.showModal = true;
-      },
-      closeModal: function () {
-        this.showModal = false;
+        let dd = date.getDate()
+        if (dd < 10) dd = '0' + dd
+        let mm = date.getMonth() + 1
+        if (mm < 10) mm = '0' + mm
+        let yy = date.getFullYear()
+        if (yy < 10) yy = '0' + yy
+        return yy + '-' + mm + '-' + dd
       }
     }
   }
