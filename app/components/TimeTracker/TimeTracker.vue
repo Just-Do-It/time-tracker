@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-container>
     <date-picker></date-picker>
     <div class="task-list">
       <ul>
@@ -10,7 +10,7 @@
         </task>
       </ul>
     </div>
-  </v-app>
+  </v-container>
 </template>
 
 <script>
