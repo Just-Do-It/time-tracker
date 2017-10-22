@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import MainPage from '../components/MainPage.vue'
-import Auth from '../components/Auth.vue'
+import SignUp from '../components/Auth/SignUp.vue'
 import DataSelection from '../components/DataSelection.vue'
 import TimeTracker from '../components/TimeTracker/TimeTracker.vue'
 
@@ -17,8 +17,8 @@ export default new Router({
       component: MainPage
     },
     {
-      path: '/auth',
-      component: Auth
+      path: '/signup',
+      component: SignUp
     },
     {
       path: '/date',
