@@ -13,7 +13,7 @@
           ></v-text-field>
         </v-flex>
 
-        <v-flex xs1>
+        <!-- <v-flex xs1>
           <v-text-field
             name="hours"
             label="Hours"
@@ -23,7 +23,15 @@
             class="task-time"
           ></v-text-field>
 
-        </v-flex>
+        </v-flex> -->
+        <input type="text" ref="inputH"
+        v-bind:value="taskData.timeTask"
+        v-on:input="updateValue($event.target.value, 'h')"
+        v-on:blur="formatHours">
+        <input type="text" ref="inputM"
+        v-bind:value="taskData.timeTask"
+        v-on:input="updateValue2($event.target.value, 'm')"
+        v-on:blur="formatMinutes">
         <v-layout align-center>
           <span>:</span>
         </v-layout>
@@ -67,30 +75,30 @@
     },
     props: {
       taskData: {
-        type: Object,
-        twoWay: true
+        type: Object
       }
     },
-    filters: {
-      // formatHours(time) {
-      //   // return Math.floor(time / 1000 / 60 / 60)
-      //   console.log("asds");
-      //   return time/2
-      // },
-      formatHours: {
-        read: function (time) {
-          // return Math.floor(time / 1000 / 60 / 60)
-          console.log("read");
-          return time/10
-        },
-        write: function (time) {
-          console.log("write");
-          let newTime = time/2
-          return newTime
-        }
+    // mounted: function () {
+    //   this.formatHours()
+    // },
+    methods: {
+      formatHours() {
+        console.log("hour");
+        this.$refs.inputH.value = Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
+      },
+      updateValue(value, type) {
+        this.taskData.timeTask = value
+        if (type === 'h') this.$refs.inputH.value = value
+        if (type === 'm') this.$refs.inputM.value = value
+        console.log(this.$refs);
+        this.$emit('input', value)
+      },
+      formatValue() {
+        this.$refs.input.value = this.taskData.timeTask /2
       },
       formatMinutes(time) {
-        return Math.floor(time / 1000 / 60) % 60
+        console.log("min");
+        this.$refs.inputM.value = Math.floor(this.taskData.timeTask / 1000 / 60) % 60
       }
     }
   }
