@@ -5,7 +5,7 @@ const mockTaskList = [
     description: 'description task 1',
     timeCreate: '12:20',
     play: false,
-    timeTask: '1h 20m',
+    timeTask: 7000000,
     status: true, // open - true, close - false
     states: [
       {

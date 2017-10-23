@@ -3,7 +3,7 @@
     <v-dialog v-model="showDialog">
       <v-layout class="grey lighten-4" column align-center>
         <v-date-picker v-model="selectedDate"></v-date-picker>
-        <v-btn success @click.native="showDialog = false">OK</v-btn>
+        <v-btn class="success" @click.native="showDialog = false">OK</v-btn>
       </v-layout>
     </v-dialog>
     <v-layout justify-center>
