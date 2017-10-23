@@ -24,14 +24,19 @@
           ></v-text-field>
 
         </v-flex> -->
+        <!-- <input type="text" ref="inputH"
+        v-bind:value="taskData.timeTask"
+        v-on:input="updateValue($event.target.value, 'h')"
+        v-on:blur="formatHours"> -->
         <input type="text" ref="inputH"
         v-bind:value="taskData.timeTask"
         v-on:input="updateValue($event.target.value, 'h')"
         v-on:blur="formatHours">
         <input type="text" ref="inputM"
         v-bind:value="taskData.timeTask"
-        v-on:input="updateValue2($event.target.value, 'm')"
+        v-on:input="updateValue($event.target.value, 'm')"
         v-on:blur="formatMinutes">
+        >
         <v-layout align-center>
           <span>:</span>
         </v-layout>
@@ -87,9 +92,9 @@
         this.$refs.inputH.value = Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
       },
       updateValue(value, type) {
-        this.taskData.timeTask = value
-        if (type === 'h') this.$refs.inputH.value = value
-        if (type === 'm') this.$refs.inputM.value = value
+        this.hours = value
+        if (type == 'h') this.$refs.inputH.value = value
+        if (type == 'm') this.$refs.inputM.value = value
         console.log(this.$refs);
         this.$emit('input', value)
       },
