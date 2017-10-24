@@ -14,11 +14,6 @@
         menuItems: [
           {
             path: '/',
-            title: 'Main',
-            icon: 'home'
-          },
-          {
-            path: '/time-tracker',
             title: 'Tab tracker',
             icon: 'access_time'
           }
