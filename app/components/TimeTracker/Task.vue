@@ -24,24 +24,19 @@
           ></v-text-field>
 
         </v-flex> -->
-        <!-- <input type="text" ref="inputH"
-        v-bind:value="taskData.timeTask"
-        v-on:input="updateValue($event.target.value, 'h')"
-        v-on:blur="formatHours"> -->
-        <input type="text" ref="inputH"
-        v-bind:value="taskData.timeTask"
+        <input type="text"
+        v-bind:value="valueH"
         v-on:input="updateValue($event.target.value, 'h')"
         v-on:blur="formatHours">
-        <input type="text" ref="inputM"
-        v-bind:value="taskData.timeTask"
+        <input type="text"
+        v-bind:value="valueM"
         v-on:input="updateValue($event.target.value, 'm')"
         v-on:blur="formatMinutes">
-        >
         <v-layout align-center>
           <span>:</span>
         </v-layout>
 
-        <v-flex xs1>
+        <!-- <v-flex xs1>
           <v-text-field
             name="minutes"
             label="Minutes"
@@ -50,15 +45,9 @@
             hide-details
             class="task-time"
           ></v-text-field>
-        </v-flex>
-
-        <!-- <input class="task-name" type="text" v-model="taskData.name">
-        <input class="task-time" type="text" v-model="hours">
-        <input class="task-time" type="text" v-model="minutes"> -->
+        </v-flex> -->
       </v-layout>
     </v-container>
-
-    <!-- <p>{{taskData.timeTask | formatHours}}:{{taskData.timeTask | formatMinutes}}</p> -->
     <subtask></subtask>
   </li>
 </template>
@@ -68,12 +57,6 @@
   import Subtask from './Subtask.vue'
 
   export default{
-    data() {
-      return {
-        hours: 7000000,
-        minutes: 0
-      }
-    },
     components: {
       'task-time-info': TaskTimeInfo,
       'subtask': Subtask
@@ -85,25 +68,43 @@
     },
     // mounted: function () {
     //   this.formatHours()
+    //   this.formatMinutes()
     // },
+    // updated: function () {
+    //   this.formatHours()
+    //   this.formatMinutes()
+    // },
+    computed: {
+      valueH() {
+        return this.formatHours()
+      },
+      valueM() {
+        return this.formatMinutes()
+      }
+    },
     methods: {
       formatHours() {
         console.log("hour");
-        this.$refs.inputH.value = Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
+        return Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
       },
       updateValue(value, type) {
-        this.hours = value
-        if (type == 'h') this.$refs.inputH.value = value
-        if (type == 'm') this.$refs.inputM.value = value
-        console.log(this.$refs);
+        let temporaryH = this.valueH * 1000 * 60 * 60;
+        let temporaryM = this.valueM * 1000 * 60;
+
+        if (type == 'h') {
+          temporaryH = value * 1000 * 60 * 60
+        }
+        if (type == 'm') {
+          temporaryM = value * 1000 * 60
+        }
+        console.log("temporaryH " + temporaryH);
+        console.log("temporaryM " + temporaryM);
+        this.taskData.timeTask = temporaryH + temporaryM;
         this.$emit('input', value)
       },
-      formatValue() {
-        this.$refs.input.value = this.taskData.timeTask /2
-      },
-      formatMinutes(time) {
+      formatMinutes() {
         console.log("min");
-        this.$refs.inputM.value = Math.floor(this.taskData.timeTask / 1000 / 60) % 60
+        return Math.floor(this.taskData.timeTask / 1000 / 60) % 60
       }
     }
   }
