@@ -10,7 +10,7 @@ export default new Vuex.Store({
     selectedDate: null
   },
   mutations: {
-    signUp (state, payload) {
+    setUser (state, payload) {
       state.user = payload
     },
     updateSelectedDate (state, payload) {
@@ -21,7 +21,22 @@ export default new Vuex.Store({
     signUserUp ({commit}, payload) {
       AuthService.signUp(payload.email, payload.password)
         .then((user) => {
-          commit('signUp', user)
+          const newUser = {
+            id: user.uid
+          }
+          commit('setUser', newUser)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    signUserIn ({commit}, payload) {
+      AuthService.signIn(payload.email, payload.password)
+        .then((user) => {
+          const currentUser = {
+            id: user.uid
+          }
+          commit('setUser', currentUser)
         })
         .catch((err) => {
           console.log(err)
@@ -29,6 +44,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-
+    user (state) {
+      return state.user
+    }
   }
 })
