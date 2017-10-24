@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import MainPage from '../components/MainPage.vue'
 import SignUp from '../components/Auth/SignUp.vue'
 import SignIn from '../components/Auth/SignIn.vue'
-import DataSelection from '../components/DataSelection.vue'
 import TimeTracker from '../components/TimeTracker/TimeTracker.vue'
 
 Vue.use(Router)
@@ -24,10 +23,6 @@ export default new Router({
     {
       path: '/signin',
       component: SignIn
-    },
-    {
-      path: '/date',
-      component: DataSelection
     },
     {
       path: '/time-tracker',

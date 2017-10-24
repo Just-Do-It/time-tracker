@@ -18,11 +18,6 @@
             icon: 'home'
           },
           {
-            path: '/date',
-            title: 'Choice date',
-            icon: 'date_range'
-          },
-          {
             path: '/time-tracker',
             title: 'Tab tracker',
             icon: 'access_time'
