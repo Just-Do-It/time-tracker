@@ -12,40 +12,29 @@
             hide-details
           ></v-text-field>
         </v-flex>
-
-        <!-- <v-flex xs1>
-          <v-text-field
-            name="hours"
-            label="Hours"
-            v-model="taskData.timeTask | formatHours"
-            single-line
-            hide-details
-            class="task-time"
-          ></v-text-field>
-
-        </v-flex> -->
-        <input type="text"
-        v-bind:value="valueH"
-        v-on:input="updateValue($event.target.value, 'h')"
-        v-on:blur="formatHours">
-        <input type="text"
-        v-bind:value="valueM"
-        v-on:input="updateValue($event.target.value, 'm')"
-        v-on:blur="formatMinutes">
-        <v-layout align-center>
+        <v-layout align-center class="timer">
+          <input type="text"
+            v-bind:value="valueH"
+            v-on:input="updateValue($event.target.value, 'h')"
+            v-on:blur="formatHours"
+          >
           <span>:</span>
+          <input type="text"
+            v-bind:value="valueM"
+            v-on:input="updateValue($event.target.value, 'm')"
+            v-on:blur="formatMinutes"
+          >
+          <span>:</span>
+          <input type="text"
+            v-bind:value="valueS"
+            v-on:input="updateValue($event.target.value, 's')"
+            v-on:blur="formatSeconds"
+          >
         </v-layout>
-
-        <!-- <v-flex xs1>
-          <v-text-field
-            name="minutes"
-            label="Minutes"
-            v-model="minutes"
-            single-line
-            hide-details
-            class="task-time"
-          ></v-text-field>
-        </v-flex> -->
+        <v-btn fab small @click="startTimer">
+          <v-icon v-if="taskData.play">pause</v-icon>
+          <v-icon v-else="taskData.play">play_arrow</v-icon>
+        </v-btn>
       </v-layout>
     </v-container>
     <subtask></subtask>
@@ -66,45 +55,70 @@
         type: Object
       }
     },
-    // mounted: function () {
-    //   this.formatHours()
-    //   this.formatMinutes()
-    // },
-    // updated: function () {
-    //   this.formatHours()
-    //   this.formatMinutes()
-    // },
     computed: {
       valueH() {
         return this.formatHours()
       },
       valueM() {
         return this.formatMinutes()
+      },
+      valueS() {
+        return this.formatSeconds()
       }
     },
     methods: {
-      formatHours() {
-        console.log("hour");
-        return Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
-      },
       updateValue(value, type) {
-        let temporaryH = this.valueH * 1000 * 60 * 60;
-        let temporaryM = this.valueM * 1000 * 60;
+        if(isNaN(Number(value))) { value = 0 }
+        let temporaryH = this.calcHours(this.valueH)
+        let temporaryM = this.calcMinutes(this.valueM)
+        let temporaryS = this.calcSeconds(this.valueS)
 
-        if (type == 'h') {
-          temporaryH = value * 1000 * 60 * 60
+        switch (type) {
+          case "h":
+            temporaryH = this.calcHours(value)
+            break;
+          case "m":
+            temporaryM = this.calcMinutes(value)
+            break;
+          case "s":
+            temporaryS = this.calcSeconds(value)
+            break;
         }
-        if (type == 'm') {
-          temporaryM = value * 1000 * 60
-        }
-        console.log("temporaryH " + temporaryH);
-        console.log("temporaryM " + temporaryM);
-        this.taskData.timeTask = temporaryH + temporaryM;
+        this.taskData.timeTask = temporaryH + temporaryM + temporaryS
         this.$emit('input', value)
       },
+      formatHours() {
+        return Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
+      },
       formatMinutes() {
-        console.log("min");
         return Math.floor(this.taskData.timeTask / 1000 / 60) % 60
+      },
+      formatSeconds() {
+        return Math.floor(this.taskData.timeTask / 1000) % 60
+      },
+      calcHours(time) {
+        return time * 1000 * 60 * 60
+      },
+      calcMinutes(time) {
+        return time * 1000 * 60
+      },
+      calcSeconds(time) {
+        return time * 1000
+      },
+      startTimer() {
+        let timerId;
+        if(this.taskData.play) {
+          console.log("pause");
+          clearTimeout(timerId)
+        } else {
+          timerId = setTimeout(this.counterTime, 1000);
+        }
+        this.taskData.play = !this.taskData.play
+      },
+      counterTime() {
+        console.log("counterTime");
+        this.taskData.timeTask += 1000;
+        setTimeout(this.counterTime, 1000)
       }
     }
   }
@@ -123,7 +137,8 @@
   .input-group {
     padding: 0;
   }
-  .task-time .input-group--text-field input {
+  .timer input {
+    width: 25px;
     text-align: center;
   }
 </style>
