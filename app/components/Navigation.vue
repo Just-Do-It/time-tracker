@@ -1,6 +1,6 @@
 <template>
   <v-bottom-nav shift :value="true" class="main-menu">
-    <v-btn v-for="item in menuItems" :to="item.path" exact >
+    <v-btn v-for="item,i in menuItems" :to="item.path" :key="i" exact >
       <span>{{ item.title }}</span>
       <v-icon class="white--text">{{ item.icon }}</v-icon>
     </v-btn>
@@ -14,16 +14,6 @@
         menuItems: [
           {
             path: '/',
-            title: 'Main',
-            icon: 'home'
-          },
-          {
-            path: '/date',
-            title: 'Choice date',
-            icon: 'date_range'
-          },
-          {
-            path: '/time-tracker',
             title: 'Tab tracker',
             icon: 'access_time'
           }
