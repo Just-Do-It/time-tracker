@@ -2,13 +2,15 @@
   <v-app>
     <template v-if="userIsAuthenticated">
       <app-navigation></app-navigation>
-      <router-view></router-view>
     </template>
-    <template v-else>
+
+    <template v-else-if="userIsSignIn">
       <main>
         <app-signin></app-signin>
       </main>
     </template>
+
+    <router-view></router-view>
   </v-app>
 </template>
 
@@ -24,6 +26,10 @@
     computed: {
       userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      },
+
+      userIsSignIn () {
+        return this.$route.fullPath === '/'
       }
     }
   }

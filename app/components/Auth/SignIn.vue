@@ -30,9 +30,12 @@
                     </v-text-field>
                   </v-flex>
                 </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
+                <v-layout row justify-space-between>
+                  <v-flex text-xs-left>
                     <v-btn type="submit">Sign In</v-btn>
+                  </v-flex>
+                  <v-flex text-xs-right>
+                    <v-btn to="/signup" color="primary">Sign Up</v-btn>
                   </v-flex>
                 </v-layout>
               </form>
@@ -62,3 +65,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .btn {
+    margin: 0;
+  }
+</style>
