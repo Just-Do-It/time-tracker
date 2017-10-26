@@ -11,7 +11,7 @@ export default new Router({
   linkExactActiveClass: 'active',
   routes: [
     {
-      path: '/time-tracker',
+      path: '/',
       component: TimeTracker
     },
     {
