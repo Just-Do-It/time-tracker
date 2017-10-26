@@ -13,7 +13,7 @@
       return {
         menuItems: [
           {
-            path: '/',
+            path: '/time-tracker',
             title: 'Tab tracker',
             icon: 'access_time'
           }
