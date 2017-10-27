@@ -1,43 +1,49 @@
 <template>
   <li>
-    <task-time-info :taskData="taskData"></task-time-info>
     <v-container>
-      <v-layout class="task">
-        <v-flex xs10>
-          <v-text-field
-            name="name"
-            label="Task name"
-            v-model="taskData.name"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-flex>
-        <v-layout align-center class="timer">
-          <input type="text"
-            v-bind:value="valueH"
-            v-on:input="updateValue($event.target.value, 'h')"
-            v-on:blur="formatHours"
-          >
-          <span>:</span>
-          <input type="text"
-            v-bind:value="valueM"
-            v-on:input="updateValue($event.target.value, 'm')"
-            v-on:blur="formatMinutes"
-          >
-          <span>:</span>
-          <input type="text"
-            v-bind:value="valueS"
-            v-on:input="updateValue($event.target.value, 's')"
-            v-on:blur="formatSeconds"
-          >
-        </v-layout>
-        <v-btn fab small @click="startTimer">
-          <v-icon v-if="taskData.play">pause</v-icon>
-          <v-icon v-else="taskData.play">play_arrow</v-icon>
-        </v-btn>
+      <v-layout align-center>
+        <task-time-info :taskData="taskData"></task-time-info>
+        <v-container class="container_task">
+          <v-layout class="task" align-center>
+            <v-flex xs8>
+              <v-text-field
+                name="name"
+                label="Task name"
+                v-model="taskData.name"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-flex>
+            <v-layout align-center class="timer">
+              <input type="text"
+                v-bind:value="valueH"
+                v-on:input="updateValue($event.target.value, 'h')"
+                v-on:blur="formatHours"
+              >
+              <span>:</span>
+              <input type="text"
+                v-bind:value="valueM"
+                v-on:input="updateValue($event.target.value, 'm')"
+                v-on:blur="formatMinutes"
+              >
+              <span>:</span>
+              <input type="text"
+                v-bind:value="valueS"
+                v-on:input="updateValue($event.target.value, 's')"
+                v-on:blur="formatSeconds"
+              >
+            </v-layout>
+            <v-layout justify-center>
+              <v-btn fab small @click="startTimer">
+                <v-icon v-if="taskData.play">pause</v-icon>
+                <v-icon v-else="taskData.play">play_arrow</v-icon>
+              </v-btn>
+            </v-layout>
+          </v-layout>
+        </v-container>
       </v-layout>
+      <subtask :taskData="taskData"></subtask>
     </v-container>
-    <subtask></subtask>
   </li>
 </template>
 
@@ -96,6 +102,10 @@
       formatSeconds() {
         return Math.floor(this.taskData.timeTask / 1000) % 60
       },
+      // formatTwo(value) {
+      //   console.log(value.toString().lenght <= 1 ? "0"+value.toString() : value);
+      //   return value.toString().lenght <= 1 ? "0"+value : value
+      // },
       calcHours(time) {
         return time * 1000 * 60 * 60
       },
@@ -106,19 +116,16 @@
         return time * 1000
       },
       startTimer() {
-        let timerId;
         if(this.taskData.play) {
-          console.log("pause");
-          clearTimeout(timerId)
+          clearTimeout(this.timerId)
         } else {
-          timerId = setTimeout(this.counterTime, 1000);
+          this.timerId = setTimeout(this.counterTime, 1000);
         }
         this.taskData.play = !this.taskData.play
       },
       counterTime() {
-        console.log("counterTime");
         this.taskData.timeTask += 1000;
-        setTimeout(this.counterTime, 1000)
+        this.timerId = setTimeout(this.counterTime, 1000)
       }
     }
   }
@@ -126,7 +133,6 @@
 
 <style scoped>
   .task {
-    width: 100%;
     padding: 2%;
     background: #448aff;
     color: #fff;
@@ -138,7 +144,11 @@
     padding: 0;
   }
   .timer input {
-    width: 25px;
+    width: 20%;
     text-align: center;
+  }
+  .container_task {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 </style>
