@@ -1,14 +1,14 @@
 <template>
   <v-app>
-    <template v-if="userIsAuthenticated">
+    <!--<template v-if="userIsAuthenticated">-->
       <app-navigation></app-navigation>
-    </template>
+    <!--</template>-->
 
-    <template v-else-if="userIsSignIn">
-      <main>
-        <app-signin></app-signin>
-      </main>
-    </template>
+    <!--<template v-else-if="userIsSignIn">-->
+      <!--<main>-->
+        <!--<app-signin></app-signin>-->
+      <!--</main>-->
+    <!--</template>-->
 
     <router-view></router-view>
   </v-app>
