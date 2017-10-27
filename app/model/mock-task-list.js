@@ -23,8 +23,12 @@ const mockTaskList = [
       {
         id: 1,
         name: 'subtask 1',
-        play: false,
-        timeTask: '1h 20m'
+        status: true
+      },
+      {
+        id: 23,
+        name: 'subtask 2',
+        status: true
       }
     ]
   },
@@ -52,8 +56,12 @@ const mockTaskList = [
       {
         id: 1,
         name: 'subtask 1',
-        play: false,
-        timeTask: '1h 20m'
+        status: true
+      },
+      {
+        id: 2,
+        name: 'subtask 2',
+        status: false
       }
     ]
   }
