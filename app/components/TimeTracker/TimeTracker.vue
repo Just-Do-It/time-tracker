@@ -1,15 +1,15 @@
 <template>
   <v-container>
     <date-picker></date-picker>
-    <div class="task-list">
-      <ul>
-        <task
-          v-for="task in taskList"
-          :key="task.id"
-          :taskData="task">
-        </task>
-      </ul>
-    </div>
+    <v-layout class="task-list">
+        <ul>
+          <task
+            v-for="task in taskList"
+            :key="task.id"
+            :taskData="task">
+          </task>
+        </ul>
+    </v-layout>
   </v-container>
 </template>
 
@@ -32,9 +32,6 @@
 </script>
 
 <style scoped>
-  .task-list {
-    width: 100%;
-  }
   .task-list > ul {
     list-style: none;
   }
