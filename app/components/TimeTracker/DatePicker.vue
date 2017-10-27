@@ -23,7 +23,7 @@
   export default{
     data() {
       return {
-        showDialog: false,
+        showDialog: false
       }
     },
     computed: {
@@ -51,23 +51,5 @@
 </script>
 
 <style scoped>
-  .modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity .3s ease;
-  }
-  .modal-wrapper {
-    width: 50%;
-    height: 50%;
-    background: #fff;
-  }
 
 </style>
