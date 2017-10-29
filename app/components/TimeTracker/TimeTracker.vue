@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <date-picker></date-picker>
-    <v-layout class="task-list">
+    <v-layout class="task-list" align-center justify-center>
         <ul>
           <task
             v-for="task in taskList"
