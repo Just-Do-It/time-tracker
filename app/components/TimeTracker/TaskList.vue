@@ -1,0 +1,58 @@
+<template>
+  <v-layout class="task-list" align-center justify-center>
+      <ul>
+        <task
+          v-for="task in taskList"
+          :key="task.id"
+          :taskData="task">
+        </task>
+        <li>
+          <v-flex xs12
+            <v-btn block @click="createTask">Add Task</v-btn>
+          </v-flex>
+        </li>
+      </ul>
+  </v-layout>
+</template>
+
+<script>
+  import Task from './Task.vue'
+
+  export default {
+    components: {
+      'task': Task
+    },
+    props: {
+      taskList: {
+        type: Array
+      }
+    },
+    methods: {
+      createTask() {
+        let lastId = this.taskList.length > 0 ? this.taskList[this.taskList.length - 1].id : 0
+        let newTask = {
+          id: lastId + 1,
+          name: "task name",
+          description: "",
+          timeCreate: new Date(),
+          play: false,
+          timeTask: 0,
+          status: false,
+          states: [],
+          subTasks: []
+        }
+        this.taskList.push(newTask)
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  .task-list > ul {
+    list-style: none;
+  }
+  .task-list > ul > li {
+    display: flex;
+    align-items: center;
+  }
+</style>

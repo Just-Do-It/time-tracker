@@ -1,26 +1,18 @@
 <template>
   <v-container>
     <date-picker></date-picker>
-    <v-layout class="task-list" align-center justify-center>
-        <ul>
-          <task
-            v-for="task in taskList"
-            :key="task.id"
-            :taskData="task">
-          </task>
-        </ul>
-    </v-layout>
+    <task-list :taskList="taskList"></task-list>
   </v-container>
 </template>
 
 <script>
-  import Task from './Task.vue'
+  import TaskList from './TaskList.vue'
   import DatePicker from './DatePicker.vue'
   import mockTaskList from '../../model/mock-task-list'
 
   export default {
     components: {
-      'task': Task,
+      'task-list': TaskList,
       'date-picker': DatePicker
     },
     data() {
@@ -32,11 +24,4 @@
 </script>
 
 <style scoped>
-  .task-list > ul {
-    list-style: none;
-  }
-  .task-list > ul > li {
-    display: flex;
-    align-items: center;
-  }
 </style>
