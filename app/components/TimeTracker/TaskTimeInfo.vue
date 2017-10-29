@@ -1,6 +1,6 @@
 <template>
   <div class="time-create">
-    <span>{{taskData.timeCreate}}</span>
+    <span>{{taskData.timeCreate | formatTime}}</span>
   </div>
 </template>
 
@@ -8,6 +8,15 @@
   export default{
     props: {
       taskData: Object
+    },
+    filters: {
+      formatTime(date) {
+        let h = date.getHours()
+        if (h < 10) h = '0' + h
+        let m = date.getMinutes()
+        if (m < 10) m = '0' + m
+        return h + ":" + m
+      }
     }
   }
 </script>
