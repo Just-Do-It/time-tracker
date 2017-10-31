@@ -7,13 +7,17 @@ import AuthService from './services/AuthService'
 
 Vue.use(Vuetify)
 
-// todo remove
-window.auth = AuthService
-
 /* eslint-disable no-new */
 new Vue({
   router,
   store,
   el: '#app',
-  render: h => h(App)
+  render: h => h(App),
+  created () {
+    AuthService.firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('autoSign', user)
+      }
+    })
+  }
 })

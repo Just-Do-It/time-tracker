@@ -41,7 +41,14 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
+    autoSign ({commit}, payload) {
+      commit('setUser', {id: payload.uid})
+    },
+    logout ({commit}) {
+      AuthService.signOut()
+      commit('setUser', null)
+    },
   },
   getters: {
     user (state) {
