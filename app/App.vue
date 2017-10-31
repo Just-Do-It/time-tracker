@@ -25,7 +25,8 @@
     },
     computed: {
       userIsAuthenticated () {
-        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+        return this.$store.getters.user !== null &&
+                this.$store.getters.user !== undefined
       },
 
       userIsSignIn () {
@@ -35,6 +36,8 @@
     updated () {
       if (this.userIsAuthenticated) {
         this.$router.push('/time-tracker')
+      } else {
+        this.$router.push('/')
       }
     }
   }
