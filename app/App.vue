@@ -36,8 +36,6 @@
     updated () {
       if (this.userIsAuthenticated) {
         this.$router.push('/time-tracker')
-      } else {
-        this.$router.push('/')
       }
     }
   }
