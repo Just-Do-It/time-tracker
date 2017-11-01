@@ -1,9 +1,9 @@
 <template>
   <li>
-    <v-container>
+    <v-container :class="{'close-task': !taskData.status}">
       <v-layout align-center>
         <task-time-info :taskData="taskData"></task-time-info>
-        <v-container class="container_task">
+        <v-container class="container_task" row>
           <v-layout class="task" align-center>
             <v-flex xs8>
               <v-text-field
@@ -12,31 +12,45 @@
                 v-model="taskData.name"
                 single-line
                 hide-details
+                dark
+
               ></v-text-field>
             </v-flex>
-            <v-layout align-center class="timer">
-              <input type="text"
-                v-bind:value="valueH"
-                v-on:input="updateValue($event.target.value, 'h')"
-                v-on:blur="formatHours"
-              >
-              <span>:</span>
-              <input type="text"
-                v-bind:value="valueM"
-                v-on:input="updateValue($event.target.value, 'm')"
-                v-on:blur="formatMinutes"
-              >
-              <span>:</span>
-              <input type="text"
-                v-bind:value="valueS"
-                v-on:input="updateValue($event.target.value, 's')"
-                v-on:blur="formatSeconds"
-              >
+            <v-layout align-center justify-center class="timer">
+              <v-flex xs10 md7>
+                <input type="text"
+                  v-bind:value="valueH"
+                  v-on:input="updateValue($event.target.value, 'h')"
+                  v-on:blur="formatHours"
+                >
+                <span>:</span>
+                <input type="text"
+                  v-bind:value="valueM"
+                  v-on:input="updateValue($event.target.value, 'm')"
+                  v-on:blur="formatMinutes"
+                >
+                <span>:</span>
+                <input type="text"
+                  v-bind:value="valueS"
+                  v-on:input="updateValue($event.target.value, 's')"
+                  v-on:blur="formatSeconds"
+                >
+              </v-flex>
             </v-layout>
             <v-layout justify-center>
               <v-btn fab small @click="startTimer">
                 <v-icon v-if="taskData.play">pause</v-icon>
                 <v-icon v-else="taskData.play">play_arrow</v-icon>
+              </v-btn>
+            </v-layout>
+            <v-layout justify-center>
+              <v-btn fab small :color="taskData.status ? 'grey lighten-1' : 'green'" @click="changeStatus">
+                <v-icon :color="taskData.status ? '' : 'white'">{{taskData.status ? 'close' : 'loop'}}</v-icon>
+              </v-btn>
+            </v-layout>
+            <v-layout justify-center>
+              <v-btn fab small color="red" @click="deleteTask(taskData.id)">
+                <v-icon color="white">delete</v-icon>
               </v-btn>
             </v-layout>
           </v-layout>
@@ -126,6 +140,18 @@
       counterTime() {
         this.taskData.timeTask += 1000;
         this.timerId = setTimeout(this.counterTime, 1000)
+      },
+      changeStatus() {
+        this.taskData.status = !this.taskData.status
+      },
+      deleteTask(id) {
+        console.log(id);
+        // this.taskData.subTasks.some((element, index, array) => {
+        //   if(element.id === id) {
+        //     this.taskData.subTasks.splice(index, 1)
+        //     return element
+        //   }
+        // })
       }
     }
   }
@@ -148,7 +174,9 @@
     text-align: center;
   }
   .container_task {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0;
+  }
+  .close-task {
+    opacity: 0.7;
   }
 </style>
