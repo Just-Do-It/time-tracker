@@ -7,9 +7,13 @@
           :taskData="task">
         </task>
         <li>
-          <v-flex xs12
-            <v-btn block @click="createTask">Add Task</v-btn>
-          </v-flex>
+          <v-container>
+            <v-layout align-center justify-center>
+              <v-flex xs12>
+                <v-btn block @click="createTask">Add Task</v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </li>
       </ul>
   </v-layout>
@@ -37,7 +41,7 @@
           timeCreate: new Date(),
           play: false,
           timeTask: 0,
-          status: false,
+          status: true,
           states: [],
           subTasks: []
         }
