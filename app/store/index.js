@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
-    selectedDate: null
+    selectedDate: null,
+    error: null
   },
   mutations: {
     setUser (state, payload) {
@@ -15,6 +16,12 @@ export default new Vuex.Store({
     },
     updateSelectedDate (state, payload) {
       state.selectedDate = payload
+    },
+    setError (state, payload) {
+      state.error = payload
+    },
+    clearError (state) {
+      state.error = null
     }
   },
   actions: {
@@ -28,6 +35,7 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err)
+          commit('setError', err)
         })
     },
     signUserIn ({commit}, payload) {
@@ -40,6 +48,7 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err)
+          commit('setError', err)
         })
     },
     autoSign ({commit}, payload) {
@@ -49,10 +58,16 @@ export default new Vuex.Store({
       AuthService.signOut()
       commit('setUser', null)
     },
+    clearError ({commit}) {
+      commit('clearError')
+    }
   },
   getters: {
     user (state) {
       return state.user
+    },
+    error (state) {
+      return state.error
     }
   }
 })

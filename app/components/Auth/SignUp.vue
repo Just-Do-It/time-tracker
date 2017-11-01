@@ -2,6 +2,11 @@
   <main>
     <v-container>
       <v-layout row>
+        <v-flex xs12 sm6 offset-sm3 v-if="error">
+          <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+        </v-flex>
+      </v-layout>
+      <v-layout row>
         <v-flex xs12 sm6 offset-sm3>
           <v-card>
             <v-card-text>
@@ -73,11 +78,17 @@
     computed: {
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not to match' : ''
+      },
+      error () {
+        return this.$store.getters.error
       }
     },
     methods: {
       onSignUp () {
         this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
+      },
+      onDismissed () {
+        this.$store.dispatch('clearError')
       }
     }
   }
