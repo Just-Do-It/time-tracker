@@ -4,7 +4,9 @@
         <task
           v-for="task in taskList"
           :key="task.id"
-          :taskData="task">
+          :taskData="task"
+          :deleteTask="deleteTask"
+          :stopTasks="stopTasks">
         </task>
         <li>
           <v-container>
@@ -46,6 +48,21 @@
           subTasks: []
         }
         this.taskList.push(newTask)
+      },
+      deleteTask(id) {
+        this.taskList.some((element, index, array) => {
+          if(element.id === id) {
+            this.taskList.splice(index, 1)
+            return element
+          }
+        })
+      },
+      stopTasks(id) {
+        this.taskList.forEach((element, index, array) => {
+          if(element.id !== id) {
+            element.play = false
+          }
+        })
       }
     }
   }

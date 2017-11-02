@@ -65,7 +65,7 @@
   import TaskTimeInfo from './TaskTimeInfo.vue'
   import Subtask from './Subtask.vue'
 
-  export default{
+  export default {
     components: {
       'task-time-info': TaskTimeInfo,
       'subtask': Subtask
@@ -73,6 +73,17 @@
     props: {
       taskData: {
         type: Object
+      },
+      deleteTask: {
+        type: Function
+      },
+      stopTasks: {
+        type: Function
+      }
+    },
+    data() {
+      return {
+        timerId: null
       }
     },
     computed: {
@@ -133,7 +144,10 @@
         if(this.taskData.play) {
           clearTimeout(this.timerId)
         } else {
+          // console.log(this);
+          this.stopTasks(this.taskData.id)
           this.timerId = setTimeout(this.counterTime, 1000);
+          // console.log(this.timerId);
         }
         this.taskData.play = !this.taskData.play
       },
@@ -143,15 +157,6 @@
       },
       changeStatus() {
         this.taskData.status = !this.taskData.status
-      },
-      deleteTask(id) {
-        console.log(id);
-        // this.taskData.subTasks.some((element, index, array) => {
-        //   if(element.id === id) {
-        //     this.taskData.subTasks.splice(index, 1)
-        //     return element
-        //   }
-        // })
       }
     }
   }
