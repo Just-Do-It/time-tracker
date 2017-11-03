@@ -60,6 +60,7 @@
       stopTasks(id) {
         this.taskList.forEach((element, index, array) => {
           if(element.id !== id) {
+            clearTimeout(this.$store.state.timerId);
             element.play = false
           }
         })

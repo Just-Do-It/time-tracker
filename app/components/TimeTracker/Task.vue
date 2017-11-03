@@ -81,11 +81,6 @@
         type: Function
       }
     },
-    data() {
-      return {
-        timerId: null
-      }
-    },
     computed: {
       valueH() {
         return this.formatHours()
@@ -142,18 +137,16 @@
       },
       startTimer() {
         if(this.taskData.play) {
-          clearTimeout(this.timerId)
+          clearTimeout(this.$store.state.timerId)
         } else {
-          // console.log(this);
           this.stopTasks(this.taskData.id)
-          this.timerId = setTimeout(this.counterTime, 1000);
-          // console.log(this.timerId);
+          this.$store.state.timerId = setTimeout(this.counterTime, 1000);
         }
         this.taskData.play = !this.taskData.play
       },
       counterTime() {
         this.taskData.timeTask += 1000;
-        this.timerId = setTimeout(this.counterTime, 1000)
+        this.$store.state.timerId = setTimeout(this.counterTime, 1000)
       },
       changeStatus() {
         this.taskData.status = !this.taskData.status

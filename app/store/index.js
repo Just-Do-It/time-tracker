@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     user: null,
     selectedDate: null,
-    error: null
+    error: null,
+    timerId: null
   },
   mutations: {
     setUser (state, payload) {
