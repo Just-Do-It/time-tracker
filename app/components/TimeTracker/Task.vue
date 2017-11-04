@@ -4,7 +4,7 @@
       <v-layout align-center>
         <task-time-info :taskData="taskData"></task-time-info>
         <v-container class="container_task" row>
-          <v-layout class="task" align-center>
+          <v-layout v-if="this.modeEdit" class="task" align-center>
             <v-flex xs8>
               <v-text-field
                 name="name"
@@ -13,7 +13,6 @@
                 single-line
                 hide-details
                 dark
-
               ></v-text-field>
             </v-flex>
             <v-layout align-center justify-center class="timer">
@@ -38,9 +37,27 @@
               </v-flex>
             </v-layout>
             <v-layout justify-center>
+              <v-btn class="success" @click="editTask">OK</v-btn>
+            </v-layout>
+          </v-layout>
+          <v-layout v-else class="task style-task" align-center>
+            <v-flex xs8>
+              <span class="title">{{taskData.name}}</span>
+            </v-flex>
+            <v-layout>
+              <v-flex>
+                <span class="timer">{{valueH | formatTwo}}:{{valueM | formatTwo}}:{{valueS | formatTwo}}</span>
+              </v-flex>
+            </v-layout>
+            <v-layout justify-center>
               <v-btn fab small @click="startTimer">
                 <v-icon v-if="taskData.play">pause</v-icon>
                 <v-icon v-else="taskData.play">play_arrow</v-icon>
+              </v-btn>
+            </v-layout>
+            <v-layout justify-center class="container-edit-button">
+              <v-btn fab small @click="editTask">
+                <v-icon>mode_edit</v-icon>
               </v-btn>
             </v-layout>
             <v-layout justify-center>
@@ -79,6 +96,11 @@
       },
       stopTasks: {
         type: Function
+      }
+    },
+    data() {
+      return {
+        modeEdit: false
       }
     },
     computed: {
@@ -122,10 +144,6 @@
       formatSeconds() {
         return Math.floor(this.taskData.timeTask / 1000) % 60
       },
-      // formatTwo(value) {
-      //   console.log(value.toString().lenght <= 1 ? "0"+value.toString() : value);
-      //   return value.toString().lenght <= 1 ? "0"+value : value
-      // },
       calcHours(time) {
         return time * 1000 * 60 * 60
       },
@@ -150,22 +168,38 @@
       },
       changeStatus() {
         this.taskData.status = !this.taskData.status
+      },
+      editTask() {
+        this.modeEdit = !this.modeEdit
       }
+    },
+    filters: {
+      formatTwo(value) {
+        return value.toString().length <= 1 ? "0"+value : value
+      },
     }
   }
 </script>
 
 <style scoped>
   .task {
-    padding: 2%;
+    padding: 1% 0 1% 1%;
     background: #448aff;
     color: #fff;
+  }
+  .style-task {
+    /*width: 777px;*/
   }
   .task-name {
     font-size: 20px;
   }
   .input-group {
     padding: 0;
+  }
+  .timer {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 2px;
   }
   .timer input {
     width: 20%;
@@ -176,5 +210,8 @@
   }
   .close-task {
     opacity: 0.7;
+  }
+  .container-edit-button {
+    border-left: 1px solid #f5f5f5;
   }
 </style>

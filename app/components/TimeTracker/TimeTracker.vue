@@ -23,5 +23,9 @@
   }
 </script>
 
-<style scoped>
+<style>
+  ol, ul {
+    padding-left: 0;
+    width: 100%;
+  }
 </style>
