@@ -120,6 +120,7 @@
         let temporaryH = this.calcHours(this.valueH)
         let temporaryM = this.calcMinutes(this.valueM)
         let temporaryS = this.calcSeconds(this.valueS)
+        value = this.formatNumberTime(value)
 
         switch (type) {
           case "h":
@@ -134,6 +135,15 @@
         }
         this.taskData.timeTask = temporaryH + temporaryM + temporaryS
         this.$emit('input', value)
+      },
+      formatNumberTime(number) {
+        if(number < 0) {
+          return 0
+        } else if(number > 59) {
+          return 59
+        } else {
+          return number
+        }
       },
       formatHours() {
         return Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
