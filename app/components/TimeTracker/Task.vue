@@ -181,6 +181,9 @@
       },
       editTask() {
         this.modeEdit = !this.modeEdit
+        if(this.taskData.play) {
+          this.startTimer()
+        }
       }
     },
     filters: {
