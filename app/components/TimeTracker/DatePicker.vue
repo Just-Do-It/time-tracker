@@ -7,13 +7,9 @@
       </v-layout>
     </v-dialog>
     <v-layout justify-center>
-      <v-btn v-if="selectedDate" @click.native.stop="showDialog = true">
+      <v-btn @click.native.stop="showDialog = true">
         <v-icon left>date_range</v-icon>
-        {{  selectedDate  }}
-      </v-btn>
-      <v-btn v-else @click.native.stop="showDialog = true">
-        <v-icon left>date_range</v-icon>
-        {{ new Date() | formatDate }}
+        {{  selectedDate | formatDate }}
       </v-btn>
     </v-layout>
   </v-container>
@@ -29,7 +25,8 @@
     computed: {
       selectedDate: {
         get () {
-          return this.$store.state.selectedDate
+          const date = new Date(this.$store.state.selectedDate)
+          return date
         },
         set (date) {
           this.$store.commit('updateSelectedDate', date)
