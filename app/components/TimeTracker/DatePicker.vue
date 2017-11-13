@@ -25,11 +25,11 @@
     computed: {
       selectedDate: {
         get () {
-          const date = new Date(this.$store.state.selectedDate)
+          const date = new Date(this.$store.getters.selectedDate)
           return date
         },
         set (date) {
-          this.$store.commit('updateSelectedDate', date)
+          this.$store.dispatch('updateSelectedDate', new Date(date))
         }
       }
     },
