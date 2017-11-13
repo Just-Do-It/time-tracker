@@ -21,5 +21,6 @@ new Vue({
         this.$store.dispatch('autoSign', user)
       }
     })
+    this.$store.dispatch('loadTasks')
   }
 })
