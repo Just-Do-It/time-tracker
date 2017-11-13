@@ -10,7 +10,8 @@
       taskData: Object
     },
     filters: {
-      formatTime(date) {
+      formatTime(value) {
+        const date = new Date(value)
         let h = date.getHours()
         if (h < 10) h = '0' + h
         let m = date.getMinutes()
