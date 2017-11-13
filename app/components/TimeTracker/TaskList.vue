@@ -28,34 +28,17 @@
     components: {
       'task': Task
     },
-    props: {
-      taskList: {
-        type: Array
+    computed: {
+      taskList () {
+        return this.$store.getters.loadedTasks
       }
     },
     methods: {
       createTask() {
-        let lastId = this.taskList.length > 0 ? this.taskList[this.taskList.length - 1].id : 0
-        let newTask = {
-          id: lastId + 1,
-          name: "task name",
-          description: "",
-          timeCreate: new Date(),
-          play: false,
-          timeTask: 0,
-          status: true,
-          states: [],
-          subTasks: []
-        }
-        this.taskList.push(newTask)
+        this.$store.dispatch('createTask')
       },
       deleteTask(id) {
-        this.taskList.some((element, index, array) => {
-          if(element.id === id) {
-            this.taskList.splice(index, 1)
-            return element
-          }
-        })
+        this.$store.dispatch('deleteTask', id)
       },
       stopTasks(id) {
         this.taskList.forEach((element, index, array) => {
