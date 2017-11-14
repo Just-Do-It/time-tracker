@@ -85,6 +85,17 @@ export default new Vuex.Store({
     createTask (state, payload) {
       state.loadedTasks.push(payload)
     },
+    updateTask (state, payload) {
+      const task = state.loadedTasks.find(task => {
+        return task.id === payload.id
+      })
+      if (payload.name) {
+        task.name = payload.name
+      }
+      if (payload.timeTask) {
+        task.timeTask = payload.timeTask
+      }
+    },
     deleteTask (state, id) {
       state.loadedTasks.some((element, index, array) => {
         if (element.id === id) {
@@ -186,6 +197,25 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err)
+        })
+    },
+    updateTaskData ({commit}, payload) {
+      commit('setLoading', true)
+      const updateObj = {}
+      if (payload.name) {
+        updateObj.name = payload.name
+      }
+      if (payload.timeTask) {
+        updateObj.timeTask = payload.timeTask
+      }
+      firebase.database().ref('tasks').child(payload.id).update(updateObj)
+        .then(() => {
+          commit('setLoading', false)
+          commit('updateTask', payload)
+        })
+        .catch(error => {
+          console.log(error)
+          commit('setLoading', false)
         })
     },
     signUserUp ({commit}, payload) {

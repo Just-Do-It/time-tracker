@@ -9,7 +9,7 @@
               <v-text-field
                 name="name"
                 label="Task name"
-                v-model="taskData.name"
+                v-model="editedName"
                 single-line
                 hide-details
                 dark
@@ -37,10 +37,11 @@
               </v-flex>
             </v-layout>
             <v-layout justify-center>
-              <v-btn class="success" @click="editTask">OK</v-btn>
+              <v-btn class="success" @click="onSaveChanges">Save</v-btn>
+              <v-btn class="error" @click="modeEdit = false">Close</v-btn>
             </v-layout>
           </v-layout>
-          <v-layout v-else class="task style-task" align-center>
+          <v-layout v-else class="task" align-center>
             <v-flex xs8>
               <span class="title">{{taskData.name}}</span>
             </v-flex>
@@ -100,7 +101,9 @@
     },
     data() {
       return {
-        modeEdit: false
+        modeEdit: false,
+        editedName: this.taskData.name,
+        editedTime: this.taskData.timeTask
       }
     },
     computed: {
@@ -133,7 +136,7 @@
             temporaryS = this.calcSeconds(value)
             break;
         }
-        this.taskData.timeTask = temporaryH + temporaryM + temporaryS
+        this.editedTime = temporaryH + temporaryM + temporaryS
         this.$emit('input', value)
       },
       formatNumberTime(number) {
@@ -146,13 +149,25 @@
         }
       },
       formatHours() {
-        return Math.floor(this.taskData.timeTask / 1000 / 60 / 60)
+        let time = this.taskData.timeTask
+        if(this.modeEdit) {
+          time = this.editedTime
+        }
+        return Math.floor(time / 1000 / 60 / 60)
       },
       formatMinutes() {
-        return Math.floor(this.taskData.timeTask / 1000 / 60) % 60
+        let time = this.taskData.timeTask
+        if(this.modeEdit) {
+          time = this.editedTime
+        }
+        return Math.floor(time / 1000 / 60) % 60
       },
       formatSeconds() {
-        return Math.floor(this.taskData.timeTask / 1000) % 60
+        let time = this.taskData.timeTask
+        if(this.modeEdit) {
+          time = this.editedTime
+        }
+        return Math.floor(time / 1000) % 60
       },
       calcHours(time) {
         return time * 1000 * 60 * 60
@@ -166,6 +181,10 @@
       startTimer() {
         if(this.taskData.play) {
           clearTimeout(this.$store.state.timerId)
+          this.$store.dispatch('updateTaskData', {
+            id: this.taskData.id,
+            timeTask: this.taskData.timeTask
+          })
         } else {
           this.stopTasks(this.taskData.id)
           this.$store.state.timerId = setTimeout(this.counterTime, 1000);
@@ -180,16 +199,27 @@
         this.taskData.status = !this.taskData.status
       },
       editTask() {
-        this.modeEdit = !this.modeEdit
         if(this.taskData.play) {
-          this.startTimer()
+          clearTimeout(this.$store.state.timerId)
         }
+        this.modeEdit = true
+      },
+      onSaveChanges() {
+        if (this.editedName.trim() === '') {
+          return
+        }
+        this.modeEdit = false
+        this.$store.dispatch('updateTaskData', {
+          id: this.taskData.id,
+          name: this.editedName,
+          timeTask: this.editedTime
+        })
       }
     },
     filters: {
       formatTwo(value) {
         return value.toString().length <= 1 ? "0"+value : value
-      },
+      }
     }
   }
 </script>
@@ -200,15 +230,12 @@
     background: #448aff;
     color: #fff;
   }
-  .style-task {
-    /*width: 777px;*/
-  }
   .task-name {
     font-size: 20px;
   }
-  .input-group {
+  /*.input-group {
     padding: 0;
-  }
+  }*/
   .timer {
     font-size: 20px;
     font-weight: 500;
