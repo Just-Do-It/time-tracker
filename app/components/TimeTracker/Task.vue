@@ -150,25 +150,16 @@
         }
       },
       formatHours() {
-        let time = this.taskData.timeTask
-        if(this.modeEdit) {
-          time = this.editedTime
-        }
-        return Math.floor(time / 1000 / 60 / 60)
+        return Math.floor(this.checkState() / 1000 / 60 / 60)
       },
       formatMinutes() {
-        let time = this.taskData.timeTask
-        if(this.modeEdit) {
-          time = this.editedTime
-        }
-        return Math.floor(time / 1000 / 60) % 60
+        return Math.floor(this.checkState() / 1000 / 60) % 60
       },
       formatSeconds() {
-        let time = this.taskData.timeTask
-        if(this.modeEdit) {
-          time = this.editedTime
-        }
-        return Math.floor(time / 1000) % 60
+        return Math.floor(this.checkState() / 1000) % 60
+      },
+      checkState() {
+        return this.modeEdit ? this.editedTime : this.taskData.timeTask
       },
       calcHours(time) {
         return time * 1000 * 60 * 60
