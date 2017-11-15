@@ -102,6 +102,7 @@
     data() {
       return {
         modeEdit: false,
+        temporaryTime: null,
         editedName: this.taskData.name,
         editedTime: this.taskData.timeTask
       }
@@ -187,20 +188,28 @@
           })
         } else {
           this.stopTasks(this.taskData.id)
+          this.temporaryTime = new Date();
           this.$store.state.timerId = setTimeout(this.counterTime, 1000);
         }
         this.taskData.play = !this.taskData.play
       },
       counterTime() {
-        this.taskData.timeTask += 1000;
+        this.calcTime()
         this.$store.state.timerId = setTimeout(this.counterTime, 1000)
+      },
+      calcTime() {
+        this.taskData.timeTask += new Date() - this.temporaryTime
+        this.temporaryTime = new Date()
       },
       changeStatus() {
         this.taskData.status = !this.taskData.status
       },
       editTask() {
+        this.editedName = this.taskData.name
+        this.editedTime = this.taskData.timeTask
         if(this.taskData.play) {
           clearTimeout(this.$store.state.timerId)
+          this.taskData.play = false
         }
         this.modeEdit = true
       },
