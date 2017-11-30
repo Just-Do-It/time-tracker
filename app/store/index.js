@@ -28,7 +28,7 @@ export default new Vuex.Store({
             timeEnd: '13:30'
           }
         ],
-        subTasks: [
+        subtasks: [
           {
             id: 1,
             name: 'subtask 1',
@@ -61,7 +61,7 @@ export default new Vuex.Store({
             timeEnd: '13:30'
           }
         ],
-        subTasks: [
+        subtasks: [
           {
             id: 1,
             name: 'subtask 1',
@@ -104,6 +104,36 @@ export default new Vuex.Store({
         }
       })
     },
+    createSubtask (state, payload) {
+      const task = state.loadedTasks.find(task => {
+        return task.id === payload.taskId
+      })
+      task.subtasks.push(payload)
+    },
+    updateSubtask (state, payload) {
+      let subtask
+      state.loadedTasks.find(task => {
+        subtask = task.subtasks.find(subtask => {
+          return subtask.id === payload.id
+        })
+      })
+      if (payload.name) {
+        subtask.name = payload.name
+      }
+      if (payload.status) {
+        subtask.status = payload.timeTask
+      }
+    },
+    deleteSubtask (state, id) {
+      state.loadedTasks.some((task, index, array) => {
+        task.subtasks.some((subtask, index) => {
+          if (subtask.id === id) {
+            task.subtasks.splice(index, 1)
+            return subtask
+          }
+        })
+      })
+    },
     setLoadedTasks (state, payload) {
       state.loadedTasks = payload
     },
@@ -137,7 +167,7 @@ export default new Vuex.Store({
           const date = getters.selectedDate.toISOString().slice(0, 10)
           for (let key in obj) {
             if (obj[key].dateId === date && obj[key].userId === getters.user.id) {
-              tasks.push({
+              let task = {
                 id: key,
                 name: obj[key].name,
                 description: obj[key].description,
@@ -145,10 +175,16 @@ export default new Vuex.Store({
                 play: obj[key].play,
                 timeTask: obj[key].timeTask,
                 status: obj[key].status,
-                subTasks: [],
+                subtasks: [],
                 userId: obj[key].userId,
                 dateId: obj[key].dateId
-              })
+              }
+              if (obj[key].subtasksId) {
+                this.dispatch('loadSubtasks', key).then((subtasksArray) => {
+                  task.subtasks = subtasksArray
+                })
+              }
+              tasks.push(task)
             }
           }
           commit('setLoadedTasks', tasks)
@@ -169,8 +205,10 @@ export default new Vuex.Store({
         play: false,
         timeTask: 0,
         status: true,
+        subtasks: [],
         userId: getters.user.id,
-        dateId: getters.selectedDate.toISOString().slice(0, 10)
+        dateId: getters.selectedDate.toISOString().slice(0, 10),
+        subtasksId: []
       }
       let key
       firebase.database().ref('tasks').push(task)
@@ -181,19 +219,18 @@ export default new Vuex.Store({
         .then(() => {
           task['id'] = key
           commit('createTask', task)
-          // commit('createTask', {
-          //   ...task,
-          //   id: key
-          // }) //error
         })
         .catch((err) => {
           console.log(err)
         })
     },
-    deleteTask ({commit}, id) {
-      firebase.database().ref('tasks/' + id).remove()
+    deleteTask ({commit}, taskData) {
+      firebase.database().ref('tasks/' + taskData.id).remove()
         .then(() => {
-          commit('deleteTask', id)
+          taskData.subtasks.forEach((subtask) => {
+            this.dispatch('deleteSubtask', {taskId: taskData.id, subtaskId: subtask.id})
+          })
+          commit('deleteTask', taskData.id)
         })
         .catch((err) => {
           console.log(err)
@@ -216,6 +253,87 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error)
           commit('setLoading', false)
+        })
+    },
+    loadSubtasks ({commit}, taskId) {
+      const subtasks = []
+      firebase.database().ref('subtasks').once('value')
+        .then((data) => {
+          const obj = data.val()
+          for (let key in obj) {
+            if (obj[key].taskId === taskId) {
+              subtasks.push({
+                id: key,
+                name: obj[key].name,
+                status: obj[key].status,
+                taskId: obj[key].taskId
+              })
+            }
+          }
+        })
+        .catch(
+          (err) => {
+            console.log(err)
+          }
+        )
+      return subtasks
+    },
+    createSubtask ({commit, getters}, taskData) {
+      const subtask = {
+        name: 'subtask name',
+        status: false,
+        taskId: taskData.id
+      }
+      let key
+      firebase.database().ref('subtasks').push(subtask)
+        .then((data) => {
+          key = data.key
+          return key
+        })
+        .then(() => {
+          subtask.id = key
+          this.dispatch('addSubtaskToTask', subtask)
+          commit('createSubtask', subtask)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    updateSubtaskData ({commit}, payload) {
+      commit('setLoading', true)
+      const updateObj = {}
+      if (payload.name) {
+        updateObj.name = payload.name
+      }
+      if (payload.status) {
+        updateObj.status = payload.status
+      }
+      firebase.database().ref('subtasks').child(payload.id).update(updateObj)
+        .then(() => {
+          commit('setLoading', false)
+          commit('updateSubtask', payload)
+        })
+        .catch(error => {
+          console.log(error)
+          commit('setLoading', false)
+        })
+    },
+    deleteSubtask ({commit}, subtaskInfo) {
+      firebase.database().ref('subtasks/' + subtaskInfo.subtaskId).remove()
+        .then(() => {
+          firebase.database().ref('tasks/' + subtaskInfo.taskId + '/subtasksId/' + subtaskInfo.subtaskId).remove()
+          commit('deleteSubtask', subtaskInfo.subtaskId)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    addSubtaskToTask ({commit}, subtask) {
+      const subtaskInfo = {}
+      subtaskInfo[subtask.id] = true
+      firebase.database().ref('tasks/' + subtask.taskId + '/subtasksId').update(subtaskInfo)
+        .catch((err) => {
+          console.log(err)
         })
     },
     signUserUp ({commit}, payload) {

@@ -37,8 +37,8 @@
       createTask() {
         this.$store.dispatch('createTask')
       },
-      deleteTask(id) {
-        this.$store.dispatch('deleteTask', id)
+      deleteTask(taskData) {
+        this.$store.dispatch('deleteTask', taskData)
       },
       stopTasks(id) {
         this.taskList.forEach((element, index, array) => {

@@ -67,7 +67,7 @@
               </v-btn>
             </v-layout>
             <v-layout justify-center>
-              <v-btn fab small color="red" @click="deleteTask(taskData.id)">
+              <v-btn fab small color="red" @click="deleteTask(taskData)">
                 <v-icon color="white">delete</v-icon>
               </v-btn>
             </v-layout>

@@ -3,23 +3,24 @@
     <v-layout justify-end>
       <v-flex xs11>
         <v-list>
-          <v-list-tile v-for="subtask in taskData.subTasks" :key="subtask.id">
+          <v-list-tile v-for="subtask in taskData.subtasks" :key="subtask.id">
             <v-layout align-center>
               <v-icon>subdirectory_arrow_right</v-icon>
-              <template v-if="idSubtask == subtask.id">
+              <template v-if="modeEdit == subtask.id">
                 <v-text-field
                   name="subtask-name"
                   label="Subtask name"
-                  v-model="subtask.name"
+                  v-model="editedName"
                   autofocus
                   hide-details
                 ></v-text-field>
-                <v-btn class="success" @click="editSubtask">OK</v-btn>
+                <v-btn class="success" @click="onSaveChanges(subtask)">Save</v-btn>
+                <v-btn class="error" @click="modeEdit = false">Close</v-btn>
               </template>
               <template v-else>
                 <v-checkbox hide-details :label="subtask.name" v-model="subtask.status"></v-checkbox>
-                <v-btn icon @click="editSubtask(subtask.id)"><v-icon>mode_edit</v-icon></v-btn>
-                <v-btn icon @click="deleteSubtask(subtask.id)"><v-icon>delete</v-icon></v-btn>
+                <v-btn icon @click="editSubtask(subtask)"><v-icon>mode_edit</v-icon></v-btn>
+                <v-btn icon @click="deleteSubtask(subtask.id, taskData)"><v-icon>delete</v-icon></v-btn>
               </template>
             </v-layout>
           </v-list-tile>
@@ -31,7 +32,7 @@
         <v-layout><v-icon>subdirectory_arrow_right</v-icon></v-layout>
       </v-flex>
       <v-flex xs10>
-        <v-btn block @click="createSubtask">Add subtask</v-btn>
+        <v-btn block @click="createSubtask(taskData)">Add subtask</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -41,32 +42,36 @@
   export default{
     data() {
       return {
-        idSubtask: null
+        modeEdit: null,
+        editedName: null
       }
     },
     props: {
       taskData: Object
     },
     methods: {
-      createSubtask() {
-        let lastId = this.taskData.subTasks.length > 0 ? this.taskData.subTasks[this.taskData.subTasks.length - 1].id : 0
-        let newSubtask = {
-          id: lastId + 1,
-          name: "subtask name",
-          status: false
-        }
-        this.taskData.subTasks.push(newSubtask)
+      createSubtask(taskData) {
+        this.$store.dispatch('createSubtask', taskData)
       },
-      deleteSubtask(id) {
-        this.taskData.subTasks.some((element, index, array) => {
-          if(element.id === id) {
-            this.taskData.subTasks.splice(index, 1)
-            return element
-          }
+      deleteSubtask(subtaskId, taskData) {
+        this.$store.dispatch('deleteSubtask', {taskId: taskData.id, subtaskId})
+      },
+      editSubtask(subtask) {
+        this.editedName = subtask.name
+        this.modeEdit = subtask.id
+      },
+      onSaveChanges(subtask) {
+        if (this.editedName.trim() === '') {
+          return
+        }
+        this.modeEdit = false
+        this.$store.dispatch('updateSubtaskData', {
+          id: subtask.id,
+          name: this.editedName
         })
       },
-      editSubtask(id) {
-        this.idSubtask = id || null
+      changeStatus(subtask) {
+        console.log(subtask);
       }
     }
   }
