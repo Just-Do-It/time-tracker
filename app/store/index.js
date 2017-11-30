@@ -121,7 +121,7 @@ export default new Vuex.Store({
         subtask.name = payload.name
       }
       if (payload.status) {
-        subtask.status = payload.timeTask
+        subtask.status = payload.status
       }
     },
     deleteSubtask (state, id) {
