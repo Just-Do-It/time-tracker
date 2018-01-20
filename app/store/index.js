@@ -95,6 +95,9 @@ export default new Vuex.Store({
       if (payload.timeTask) {
         task.timeTask = payload.timeTask
       }
+      if (payload.status) {
+        task.status = payload.status
+      }
     },
     deleteTask (state, id) {
       state.loadedTasks.some((element, index, array) => {
@@ -244,6 +247,9 @@ export default new Vuex.Store({
       }
       if (payload.timeTask) {
         updateObj.timeTask = payload.timeTask
+      }
+      if (payload.hasOwnProperty('status')) {
+        updateObj.status = payload.status
       }
       firebase.database().ref('tasks').child(payload.id).update(updateObj)
         .then(() => {

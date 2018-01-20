@@ -194,6 +194,10 @@
       },
       changeStatus() {
         this.taskData.status = !this.taskData.status
+        this.$store.dispatch('updateTaskData', {
+          id: this.taskData.id,
+          status: this.taskData.status
+        })
       },
       editTask() {
         this.editedName = this.taskData.name
