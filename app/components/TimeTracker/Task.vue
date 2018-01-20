@@ -20,19 +20,19 @@
                 <input type="text"
                   v-bind:value="valueH"
                   v-on:input="updateValue($event.target.value, 'h')"
-                  v-on:blur="formatHours"
+                  v-on:blur="formatHours(checkState())"
                 >
                 <span>:</span>
                 <input type="text"
                   v-bind:value="valueM"
                   v-on:input="updateValue($event.target.value, 'm')"
-                  v-on:blur="formatMinutes"
+                  v-on:blur="formatMinutes(checkState())"
                 >
                 <span>:</span>
                 <input type="text"
                   v-bind:value="valueS"
                   v-on:input="updateValue($event.target.value, 's')"
-                  v-on:blur="formatSeconds"
+                  v-on:blur="formatSeconds(checkState())"
                 >
               </v-flex>
             </v-layout>
@@ -82,8 +82,10 @@
 <script>
   import TaskTimeInfo from './TaskTimeInfo.vue'
   import Subtask from './Subtask.vue'
+  import formatTime from '../../mixins/formatTime.js'
 
   export default {
+    mixins: [formatTime],
     components: {
       'task-time-info': TaskTimeInfo,
       'subtask': Subtask
@@ -109,13 +111,13 @@
     },
     computed: {
       valueH() {
-        return this.formatHours()
+        return this.formatHours(this.checkState())
       },
       valueM() {
-        return this.formatMinutes()
+        return this.formatMinutes(this.checkState())
       },
       valueS() {
-        return this.formatSeconds()
+        return this.formatSeconds(this.checkState())
       }
     },
     methods: {
@@ -148,15 +150,6 @@
         } else {
           return number
         }
-      },
-      formatHours() {
-        return Math.floor(this.checkState() / 1000 / 60 / 60)
-      },
-      formatMinutes() {
-        return Math.floor(this.checkState() / 1000 / 60) % 60
-      },
-      formatSeconds() {
-        return Math.floor(this.checkState() / 1000) % 60
       },
       checkState() {
         return this.modeEdit ? this.editedTime : this.taskData.timeTask
@@ -219,11 +212,6 @@
           timeTask: this.editedTime
         })
       }
-    },
-    filters: {
-      formatTwo(value) {
-        return value.toString().length <= 1 ? "0"+value : value
-      }
     }
   }
 </script>
@@ -237,9 +225,6 @@
   .task-name {
     font-size: 20px;
   }
-  /*.input-group {
-    padding: 0;
-  }*/
   .timer {
     font-size: 20px;
     font-weight: 500;

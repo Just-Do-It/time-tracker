@@ -12,18 +12,21 @@
          v-if="loading"></v-progress-circular>
      </v-flex>
    </v-layout>
+   <total-time></total-time>
   </v-container>
 </template>
 
 <script>
   import TaskList from './TaskList.vue'
+  import TotalTime from './TotalTime.vue'
   import DatePicker from './DatePicker.vue'
   import mockTaskList from '../../model/mock-task-list'
 
   export default {
     components: {
       'task-list': TaskList,
-      'date-picker': DatePicker
+      'date-picker': DatePicker,
+      'total-time': TotalTime
     },
     computed: {
       loading () {
