@@ -15,9 +15,13 @@
     computed: {
       totalTime () {
         if(this.$store.getters.loadedTasks.length > 0) {
-          return this.$store.getters.loadedTasks.reduce(function(previousValue, currentValue, index, array) {
-            return previousValue.timeTask + currentValue.timeTask;
-          })
+          if(this.$store.getters.loadedTasks.length === 1) {
+            return this.$store.getters.loadedTasks[0].timeTask
+          } else {
+            return this.$store.getters.loadedTasks.reduce(function(previousValue, currentValue, index, array) {
+              return previousValue.timeTask + currentValue.timeTask;
+            })
+          }
         } else {
           return 0
         }
