@@ -2,7 +2,7 @@
   <v-container>
     <v-layout>
      <v-flex xs12 class="text-xs-center">
-       <span>Total: {{formatHours(totalTime) | formatTwo}}:{{formatMinutes(totalTime) | formatTwo}}:{{formatSeconds(totalTime) | formatTwo}}</span>
+       <span class="total-time"><b>Total:</b> {{formatHours(totalTime) | formatTwo}}:{{formatMinutes(totalTime) | formatTwo}}:{{formatSeconds(totalTime) | formatTwo}}</span>
      </v-flex>
    </v-layout>
   </v-container>
@@ -14,15 +14,20 @@
     mixins: [formatTime],
     computed: {
       totalTime () {
-        let taskList = this.$store.getters.loadedTasks
-        return taskList.reduce(function(previousValue, currentValue, index, array) {
-          return previousValue.timeTask + currentValue.timeTask;
-        })
+        if(this.$store.getters.loadedTasks.length > 0) {
+          return this.$store.getters.loadedTasks.reduce(function(previousValue, currentValue, index, array) {
+            return previousValue.timeTask + currentValue.timeTask;
+          })
+        } else {
+          return 0
+        }
       }
     }
   }
 </script>
 
 <style scoped>
-
+  .total-time {
+    font-size: 20px;
+  }
 </style>
