@@ -311,7 +311,7 @@ export default new Vuex.Store({
       if (payload.name) {
         updateObj.name = payload.name
       }
-      if (payload.status) {
+      if (payload.hasOwnProperty('status')) {
         updateObj.status = payload.status
       }
       firebase.database().ref('subtasks').child(payload.id).update(updateObj)

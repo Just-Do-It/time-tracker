@@ -74,21 +74,21 @@
           </v-layout>
         </v-container>
       </v-layout>
-      <subtask :taskData="taskData"></subtask>
+      <subtask-list :taskData="taskData"></subtask-list>
     </v-container>
   </li>
 </template>
 
 <script>
   import TaskTimeInfo from './TaskTimeInfo.vue'
-  import Subtask from './Subtask.vue'
+  import SubtaskList from './SubtaskList.vue'
   import formatTime from '../../mixins/formatTime.js'
 
   export default {
     mixins: [formatTime],
     components: {
       'task-time-info': TaskTimeInfo,
-      'subtask': Subtask
+      'subtask-list': SubtaskList
     },
     props: {
       taskData: {
