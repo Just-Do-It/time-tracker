@@ -36,7 +36,7 @@
                 >
               </v-flex>
             </v-layout>
-            <v-layout justify-center>
+            <v-layout justify-center class="buttons-save-task">
               <v-btn class="success" @click="onSaveChanges">Save</v-btn>
               <v-btn class="error" @click="modeEdit = false">Close</v-btn>
             </v-layout>
@@ -173,6 +173,7 @@
         } else {
           this.stopTasks(this.taskData.id)
           this.temporaryTime = new Date();
+          this.$store.dispatch('setActiveTask', this.taskData)
           this.$store.state.timerId = setTimeout(this.counterTime, 1000);
         }
         this.taskData.play = !this.taskData.play
@@ -221,6 +222,18 @@
     padding: 1% 0 1% 1%;
     background: #448aff;
     color: #fff;
+  }
+  .task >>> .input-group {
+    padding: 0;
+  }
+  .task >>> .input-group__details:after {
+    background: #fff;
+  }
+  .task >>> .primary--text input {
+    caret-color: #fff !important;
+  }
+  .buttons-save-task >>> .btn {
+    margin: 8px;
   }
   .task-name {
     font-size: 20px;

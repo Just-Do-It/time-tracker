@@ -79,7 +79,8 @@ export default new Vuex.Store({
     selectedDate: new Date(),
     error: null,
     timerId: null,
-    loading: false
+    loading: false,
+    activeTask: null
   },
   mutations: {
     createTask (state, payload) {
@@ -154,6 +155,9 @@ export default new Vuex.Store({
     },
     clearError (state) {
       state.error = null
+    },
+    setActiveTask (state, payload) {
+      state.activeTask = payload
     }
   },
   actions: {
@@ -377,6 +381,9 @@ export default new Vuex.Store({
     },
     clearError ({commit}) {
       commit('clearError')
+    },
+    setActiveTask ({commit}, payload) {
+      commit('setActiveTask', payload)
     }
   },
   getters: {
@@ -394,6 +401,9 @@ export default new Vuex.Store({
     },
     error (state) {
       return state.error
+    },
+    activeTask (state) {
+      return state.activeTask
     }
   }
 })
