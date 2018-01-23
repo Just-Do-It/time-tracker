@@ -14,7 +14,6 @@
     mixins: [formatTime],
     computed: {
       totalTime () {
-        console.log(this.$store.getters.loadedTasks);
         if(this.$store.getters.loadedTasks.length > 0) {
           return this.$store.getters.loadedTasks.reduce(function(previousValue, currentValue, index, array) {
             return previousValue + currentValue.timeTask;
