@@ -1,15 +1,15 @@
 <template>
-  <v-container class="container_subtask">
+  <v-container class="container-subtask-list">
     <v-layout justify-end>
       <v-flex xs11>
-        <v-list>
+        <v-list class="subtask-list">
           <v-list-tile v-for="subtask in taskData.subtasks" :key="subtask.id">
             <subtask :subtaskData="subtask" :deleteSubtask="deleteSubtask"></subtask>
           </v-list-tile>
         </v-list>
       </v-flex>
     </v-layout>
-    <v-layout justify-end align-center>
+    <v-layout justify-end align-center v-show="taskData.status">
       <v-flex xs1>
         <v-layout><v-icon>subdirectory_arrow_right</v-icon></v-layout>
       </v-flex>
@@ -41,10 +41,13 @@
 </script>
 
 <style scoped>
-  .container_subtask {
-    padding-top: 0;
+  .container-subtask-list {
+    padding: 0;
   }
   .application--light .list {
     background: transparent;
+  }
+  .subtask-list >>> .list__tile {
+    padding: 0;
   }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <li>
-    <v-container :class="{'close-task': !taskData.status}">
+    <v-container class="container-task" :class="{'close-task': !taskData.status}">
       <v-layout align-center>
         <task-time-info :taskData="taskData"></task-time-info>
-        <v-container class="container_task" row>
+        <v-container class="container-task" row>
           <v-layout v-if="this.modeEdit" class="task" align-center>
             <v-flex xs8>
               <v-text-field
@@ -170,6 +170,7 @@
             id: this.taskData.id,
             timeTask: this.taskData.timeTask
           })
+          this.$store.dispatch('setActiveTask', null)
         } else {
           this.stopTasks(this.taskData.id)
           this.temporaryTime = new Date();
@@ -232,6 +233,9 @@
   .task >>> .primary--text input {
     caret-color: #fff !important;
   }
+  .task >>> .input-group--text-field label {
+    top: 0;
+  }
   .buttons-save-task >>> .btn {
     margin: 8px;
   }
@@ -247,8 +251,8 @@
     width: 20%;
     text-align: center;
   }
-  .container_task {
-    padding: 0;
+  .container-task {
+    padding: 10px 0 0 0;
   }
   .close-task {
     opacity: 0.7;
