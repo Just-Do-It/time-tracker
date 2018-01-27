@@ -28,9 +28,20 @@
       'date-picker': DatePicker,
       'total-time': TotalTime
     },
+    mounted() {
+      window.addEventListener('beforeunload', this.checkActiveTaskWhenClosing);
+    },
     computed: {
       loading () {
         return this.$store.getters.loading
+      }
+    },
+    methods: {
+      checkActiveTaskWhenClosing(event) {
+        if(this.$store.getters.activeTask) {
+          event.returnValue = 'Are you sure?';
+          return "You have active task!"
+        }
       }
     }
   }
@@ -40,5 +51,10 @@
   ol, ul {
     padding-left: 0;
     width: 100%;
+  }
+  @media only screen and (max-width: 960px) {
+    .container {
+      max-width: 100%;
+    }
   }
 </style>
