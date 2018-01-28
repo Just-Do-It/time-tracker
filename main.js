@@ -3,7 +3,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 // Live reload
-require('electron-reload')(__dirname)
+// require('electron-reload')(__dirname)
 
 let mainWindow
 
