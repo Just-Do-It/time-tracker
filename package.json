@@ -5,7 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "build": "electron-packager . --all",
+    "build-win": "electron-packager . time-tracker --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Time tracker\""
   },
   "repository": {
     "type": "git",
@@ -22,8 +24,8 @@
     "firebase": "^4.5.1",
     "vue": "^2.4.4",
     "vue-router": "^3.0.0",
-    "vuex": "^3.0.0",
     "vuetify": "^0.16.6",
+    "vuex": "^3.0.0",
     "webpack": "^3.6.0"
   },
   "devDependencies": {
@@ -33,6 +35,7 @@
     "css-loader": "^0.28.7",
     "electron": "^1.7.8",
     "electron-reload": "^1.2.2",
+    "electron-packager": "^10.1.2",
     "eslint": "^4.9.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
