@@ -9,10 +9,10 @@
           :stopTasks="stopTasks">
         </task>
         <li>
-          <v-container>
+          <v-container class="container-button-add-task">
             <v-layout align-center justify-center>
               <v-flex xs12>
-                <v-btn block @click="createTask">Add Task</v-btn>
+                <v-btn class="button-add-task" color="info" block @click="createTask">Add Task</v-btn>
               </v-flex>
             </v-layout>
           </v-container>
@@ -59,5 +59,13 @@
   .task-list > ul > li {
     display: flex;
     align-items: center;
+  }
+  .container-button-add-task {
+    padding: 10px 0 0 45px;
+  }
+  .button-add-task {
+    height: 45px;
+    font-weight: bold;
+    font-size: 16px;
   }
 </style>

@@ -23,5 +23,7 @@
 </script>
 
 <style scoped>
-
+  .time-create {
+    padding: 5px;
+  }
 </style>

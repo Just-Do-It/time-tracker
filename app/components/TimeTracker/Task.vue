@@ -3,7 +3,6 @@
     <v-container class="container-task" :class="{'close-task': !taskData.status}">
       <v-layout align-center>
         <task-time-info :taskData="taskData"></task-time-info>
-        <v-container class="container-task" row>
           <v-layout v-if="this.modeEdit" class="task" align-center>
             <v-flex xs8>
               <v-text-field
@@ -53,7 +52,7 @@
             <v-layout justify-center>
               <v-btn fab small @click="startTimer">
                 <v-icon v-if="taskData.play">pause</v-icon>
-                <v-icon v-else="taskData.play">play_arrow</v-icon>
+                <v-icon v-else>play_arrow</v-icon>
               </v-btn>
             </v-layout>
             <v-layout justify-center class="container-edit-button">
@@ -72,7 +71,6 @@
               </v-btn>
             </v-layout>
           </v-layout>
-        </v-container>
       </v-layout>
       <subtask-list :taskData="taskData"></subtask-list>
     </v-container>
@@ -221,7 +219,7 @@
 <style scoped>
   .task {
     padding: 1% 0 1% 1%;
-    background: #448aff;
+    background: #2196f3;
     color: #fff;
   }
   .task >>> .input-group {
@@ -252,7 +250,7 @@
     text-align: center;
   }
   .container-task {
-    padding: 10px 0 0 0;
+    padding: 0 0 10px;
   }
   .close-task {
     opacity: 0.7;

@@ -1,6 +1,5 @@
 <template>
   <v-layout align-center class="subtask">
-    <v-icon>subdirectory_arrow_right</v-icon>
     <template v-if="modeEdit == subtaskData.id">
       <v-text-field
         name="subtask-name"
@@ -46,13 +45,15 @@
         this.modeEdit = false
         this.$store.dispatch('updateSubtaskData', {
           id: this.subtaskData.id,
-          name: this.editedName
+          name: this.editedName,
+          taskId: this.subtaskData.taskId
         })
       },
       changeStatus() {
         this.$store.dispatch('updateSubtaskData', {
           id: this.subtaskData.id,
-          status: this.subtaskData.status
+          status: this.subtaskData.status,
+          taskId: this.subtaskData.taskId
         })
       }
     }

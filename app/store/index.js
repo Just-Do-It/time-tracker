@@ -34,7 +34,7 @@ export default new Vuex.Store({
       }
     },
     deleteTask (state, id) {
-      state.loadedTasks.some((element, index, array) => {
+      state.loadedTasks.some((element, index) => {
         if (element.id === id) {
           state.loadedTasks.splice(index, 1)
           return element
@@ -42,22 +42,16 @@ export default new Vuex.Store({
       })
     },
     createSubtask (state, payload) {
-      const task = state.loadedTasks.find(task => {
-        return task.id === payload.taskId
-      })
+      const task = state.loadedTasks.find(currentTask => currentTask.id === payload.taskId)
       task.subtasks.push(payload)
     },
     updateSubtask (state, payload) {
-      let subtask
-      state.loadedTasks.find(task => {
-        subtask = task.subtasks.find(subtask => {
-          return subtask.id === payload.id
-        })
-      })
+      const task = state.loadedTasks.find(currentTask => currentTask.id === payload.taskId)
+      let subtask = task.subtasks.find(currentSubtask => currentSubtask.id === payload.id)
       if (payload.name) {
         subtask.name = payload.name
       }
-      if (payload.status) {
+      if (payload.hasOwnProperty('status')) {
         subtask.status = payload.status
       }
     },
@@ -177,7 +171,6 @@ export default new Vuex.Store({
         })
     },
     updateTaskData ({commit}, payload) {
-      commit('setLoading', true)
       const updateObj = {}
       if (payload.name) {
         updateObj.name = payload.name
@@ -190,12 +183,10 @@ export default new Vuex.Store({
       }
       firebase.database().ref('tasks').child(payload.id).update(updateObj)
         .then(() => {
-          commit('setLoading', false)
           commit('updateTask', payload)
         })
         .catch(error => {
           console.log(error)
-          commit('setLoading', false)
         })
     },
     loadSubtasks ({commit}, taskId) {
@@ -243,8 +234,10 @@ export default new Vuex.Store({
         })
     },
     updateSubtaskData ({commit}, payload) {
-      commit('setLoading', true)
       const updateObj = {}
+      if (payload.taskId) {
+        updateObj.taskId = payload.taskId
+      }
       if (payload.name) {
         updateObj.name = payload.name
       }
@@ -253,12 +246,10 @@ export default new Vuex.Store({
       }
       firebase.database().ref('subtasks').child(payload.id).update(updateObj)
         .then(() => {
-          commit('setLoading', false)
           commit('updateSubtask', payload)
         })
         .catch(error => {
           console.log(error)
-          commit('setLoading', false)
         })
     },
     deleteSubtask ({commit}, subtaskInfo) {

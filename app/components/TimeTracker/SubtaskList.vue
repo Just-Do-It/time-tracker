@@ -10,10 +10,7 @@
       </v-flex>
     </v-layout>
     <v-layout justify-end align-center v-show="taskData.status">
-      <v-flex xs1>
-        <v-layout><v-icon>subdirectory_arrow_right</v-icon></v-layout>
-      </v-flex>
-      <v-flex xs10>
+      <v-flex xs11>
         <v-btn block @click="createSubtask">Add subtask</v-btn>
       </v-flex>
     </v-layout>
