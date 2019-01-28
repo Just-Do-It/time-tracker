@@ -7,7 +7,8 @@
     "start": "electron main.js",
     "dev": "webpack --watch",
     "build": "electron-packager . --all",
-    "build-win": "electron-packager . time-tracker --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Time tracker\""
+    "build-win": "electron-packager . time-tracker --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Time tracker\"",
+    "build-mac": "electron-packager . time-tracker --platform=darwin --arch=x64"
   },
   "repository": {
     "type": "git",
