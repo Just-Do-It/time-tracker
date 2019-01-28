@@ -1,6 +1,6 @@
 {
   "name": "time-tracker",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Time tracker application based on Vue.js and Electron",
   "main": "main.js",
   "scripts": {
